@@ -81,8 +81,8 @@
       <div class="logo-text"><strong>Institut Integritas Nusantara</strong><span>Portal Akademik</span></div>
     </div>
     <div class="sidebar-user">
-      <div class="avatar">AR</div>
-      <div class="user-info"><strong>Ahmad Ridwan</strong><span>2021010001 &mdash; T. Informatika</span></div>
+      <div class="avatar user-avatar">AR</div>
+      <div class="user-info"><strong class="user-nama">Ahmad Ridwan</strong><span class="user-nim">2021010001 &mdash; T. Informatika</span></div>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-title">Menu Utama</div>
@@ -97,7 +97,7 @@
       <a class="nav-item " href="pengumuman.html"><span class="nav-icon">&#128227;</span> Pengumuman <span class="nav-badge">3</span></a>
     </nav>
     <div class="sidebar-logout">
-      <button class="btn-logout" onclick="window.location.href='login.html'">&#8592; Keluar dari Portal</button>
+      <button class="btn-logout" onclick="doLogout()">&#8592; Keluar dari Portal</button>
     </div>
   </aside>
   <main class="main">
@@ -188,6 +188,46 @@
       }
       document.getElementById('nilai-tbody').innerHTML = out;
     }
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMoshbdGTITJzLeXnd_pE4571CUgs2cm0",
+      authDomain: "portalkampus-iin.firebaseapp.com",
+      projectId: "portalkampus-iin",
+      storageBucket: "portalkampus-iin.firebasestorage.app",
+      messagingSenderId: "325715653393",
+      appId: "1:325715653393:web:1e1393cf7317d9dfcdffd0"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    onAuthStateChanged(auth, async function(user) {
+      if (!user) { window.location.href = 'login.html'; return; }
+      try {
+        var userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists()) {
+          var data = userDoc.data();
+          var nama = data.nama || user.email;
+          var nim = data.nim || '-';
+          var prodi = data.prodi || '-';
+          var inisial = nama.split(' ').map(function(n){ return n[0]; }).join('').substring(0,2).toUpperCase();
+          var namaEls = document.querySelectorAll('.user-nama');
+          for (var i = 0; i < namaEls.length; i++) { namaEls[i].textContent = nama; }
+          var nimEls = document.querySelectorAll('.user-nim');
+          for (var i = 0; i < nimEls.length; i++) { nimEls[i].textContent = nim + ' — ' + prodi; }
+          var avatarEls = document.querySelectorAll('.user-avatar');
+          for (var i = 0; i < avatarEls.length; i++) { avatarEls[i].textContent = inisial; }
+        }
+      } catch(e) { console.log('Error:', e); }
+    });
+    window.doLogout = async function() {
+      await signOut(auth);
+      window.location.href = 'login.html';
+    };
   </script>
 </body>
 </html>
