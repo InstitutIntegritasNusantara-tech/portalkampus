@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nilai & Transkrip — Portal Akademik</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy:#0B1F3A; --navy-mid:#152d4e; --gold:#C9A84C; --gold-light:#E8C96A; --cream:#F5F0E8; --cream-dark:#EDE7D9; --white:#FFFFFF; --text-dark:#1A1A2E; --text-muted:#6B7280; --border:rgba(11,31,58,0.10); --green:#2E7D32; --green-bg:#E8F5E9; --orange:#E65100; --orange-bg:#FFF3E0; --red:#C62828; --red-bg:#FFEBEE; --blue:#1565C0; --blue-bg:#E3F2FD; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; display: flex; }
+    .sidebar { width: 260px; background: var(--navy); height: 100vh; position: sticky; top: 0; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+    .sidebar-logo { padding: 1.5rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .logo-mark { width: 40px; height: 40px; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); }
+    .logo-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .logo-text span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-user { padding: 1.2rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .avatar { width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: var(--navy); flex-shrink: 0; }
+    .user-info strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .user-info span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-nav { padding: 1rem 0.8rem; flex: 1; }
+    .nav-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,0.3); font-weight: 500; padding: .8rem .6rem .4rem; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: rgba(255,255,255,0.6); font-size: 13.5px; text-decoration: none; margin-bottom: 2px; transition: background .15s; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-item.active { background: rgba(201,168,76,0.15); color: var(--gold-light); font-weight: 500; }
+    .nav-icon { width: 18px; font-size: 14px; flex-shrink: 0; }
+    .nav-badge { margin-left: auto; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+    .sidebar-logout { padding: 1rem .8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .btn-logout { width: 100%; padding: 9px 12px; background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2); border-radius: 8px; color: #FF8A80; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .main { flex: 1; overflow-y: auto; padding: 2rem 2.5rem; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .topbar-left h1 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--navy); }
+    .topbar-left p { font-size: 14px; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .card-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
+    .card-link { font-size: 12px; color: var(--gold); text-decoration: none; font-weight: 500; }
+    .tag { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+    .tag-green { background: var(--green-bg); color: var(--green); }
+    .tag-orange { background: var(--orange-bg); color: var(--orange); }
+    .tag-red { background: var(--red-bg); color: var(--red); }
+    .tag-blue { background: var(--blue-bg); color: var(--blue); }
+    .tag-navy { background: rgba(11,31,58,0.08); color: var(--navy); }
+    .btn { padding: 10px 20px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; }
+    .btn-primary { background: var(--navy); color: var(--white); }
+    .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 20px; border-radius: 8px; }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); font-weight: 500; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { font-size: 13.5px; color: var(--text-dark); padding: 12px 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--cream); }
+    .ipk-hero { background:var(--navy); border-radius:16px; padding:2rem; display:flex; align-items:center; gap:2rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+    .ipk-big { font-family:'DM Serif Display',serif; font-size:5rem; color:var(--gold-light); line-height:1; }
+    .ipk-bars { margin-top:1rem; }
+    .bar-row { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+    .bar-row span { font-size:12px; color:rgba(255,255,255,.6); min-width:100px; }
+    .bar-track { flex:1; height:6px; background:rgba(255,255,255,.1); border-radius:6px; overflow:hidden; }
+    .bar-fill { height:100%; border-radius:6px; background:var(--gold); }
+    .predikat { background:rgba(201,168,76,.15); border:1px solid rgba(201,168,76,.3); color:var(--gold-light); font-size:13px; font-weight:500; padding:6px 16px; border-radius:8px; display:inline-block; margin-top:8px; }
+    .grid-2 { display:grid; grid-template-columns:2fr 1fr; gap:1.5rem; margin-bottom:1.5rem; }
+    .g-a { color:#2E7D32; font-size:16px; font-weight:700; }
+    .g-b { color:#1565C0; font-size:16px; font-weight:700; }
+    .g-c { color:#E65100; font-size:16px; font-weight:700; }
+    .dist-row { margin-bottom:10px; }
+    .dist-label { display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; }
+    .dist-track { height:8px; background:var(--cream-dark); border-radius:8px; }
+    .dist-fill { height:100%; border-radius:8px; }
+    .ips-row { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+    .ips-row span { font-size:12px; color:var(--text-muted); min-width:45px; }
+    .ips-track { flex:1; height:16px; background:var(--cream-dark); border-radius:6px; overflow:hidden; }
+    .ips-fill { height:100%; background:var(--navy); border-radius:6px; display:flex; align-items:center; justify-content:flex-end; padding-right:4px; }
+    .ips-fill span { font-size:9px; color:var(--gold-light); font-weight:600; }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      <div class="logo-text"><strong>Institut Integritas Nusantara</strong><span>Portal Akademik</span></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="avatar">AR</div>
+      <div class="user-info"><strong>Ahmad Ridwan</strong><span>2021010001 &mdash; T. Informatika</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Menu Utama</div>
+      <a class="nav-item " href="dashboard.html"><span class="nav-icon">&#9638;</span> Dashboard</a>
+      <a class="nav-item " href="jadwal.html"><span class="nav-icon">&#128197;</span> Jadwal Kuliah</a>
+      <a class="nav-item " href="krs.html"><span class="nav-icon">&#128203;</span> KRS / KHS</a>
+      <a class="nav-item active" href="nilai.html"><span class="nav-icon">&#127891;</span> Nilai &amp; Transkrip</a>
+      <div class="nav-section-title">Layanan</div>
+      <a class="nav-item " href="keuangan.html"><span class="nav-icon">&#128176;</span> Keuangan &amp; UKT <span class="nav-badge">1</span></a>
+      <a class="nav-item " href="perpustakaan.html"><span class="nav-icon">&#128218;</span> Perpustakaan</a>
+      <a class="nav-item " href="surat.html"><span class="nav-icon">&#128221;</span> Surat Keterangan</a>
+      <a class="nav-item " href="pengumuman.html"><span class="nav-icon">&#128227;</span> Pengumuman <span class="nav-badge">3</span></a>
+    </nav>
+    <div class="sidebar-logout">
+      <button class="btn-logout" onclick="window.location.href='login.html'">&#8592; Keluar dari Portal</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left"><h1>Nilai &amp; Transkrip</h1><p>Ahmad Ridwan &middot; 2021010001 &middot; Teknik Informatika</p></div>
+      <div class="topbar-right">
+        <button class="btn-outline" onclick="alert('Mengunduh transkrip sementara...')">Transkrip Sementara</button>
+        <button class="btn btn-primary" onclick="alert('Permohonan transkrip resmi dikirim!')">Transkrip Resmi</button>
+      </div>
+    </div>
+    <div class="ipk-hero">
+      <div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">IPK Kumulatif</div>
+        <div class="ipk-big">3.72</div>
+        <div class="predikat">&#127942; Cumlaude</div>
+      </div>
+      <div style="flex:1">
+        <div style="color:var(--white);font-size:1rem;font-weight:500;margin-bottom:.5rem">Progres Studi</div>
+        <div style="color:rgba(255,255,255,.5);font-size:13px;margin-bottom:1rem">Semester 8 &middot; 137 SKS dari 144 SKS</div>
+        <div class="ipk-bars">
+          <div class="bar-row"><span>SKS Tempuh</span><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div><span style="min-width:50px;text-align:right;color:rgba(255,255,255,.6)">137/144</span></div>
+          <div class="bar-row"><span>IPK</span><div class="bar-track"><div class="bar-fill" style="width:93%;background:#E8C96A"></div></div><span style="min-width:50px;text-align:right;color:rgba(255,255,255,.6)">3.72/4.0</span></div>
+          <div class="bar-row"><span>Kehadiran</span><div class="bar-track"><div class="bar-fill" style="width:91%;background:#81C784"></div></div><span style="min-width:50px;text-align:right;color:rgba(255,255,255,.6)">91%</span></div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:8px;text-transform:uppercase">Semester Ini</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--white);line-height:1">3.80</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:4px">IPS Semester 8</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Nilai Semester 8</div>
+          <select onchange="loadNilai(this.value)" style="padding:7px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;outline:none">
+            <option value="8">Semester 8</option>
+            <option value="7">Semester 7</option>
+            <option value="6">Semester 6</option>
+          </select>
+        </div>
+        <table>
+          <thead><tr><th>Kode</th><th>Mata Kuliah</th><th>SKS</th><th>Nilai</th><th>Huruf</th></tr></thead>
+          <tbody id="nilai-tbody">
+            <tr><td>IF801</td><td>Pemrograman Web Lanjut</td><td>3</td><td>92</td><td><span class="g-a">A</span></td></tr>
+            <tr><td>IF802</td><td>Kecerdasan Buatan</td><td>3</td><td>88</td><td><span class="g-a">A-</span></td></tr>
+            <tr><td>IF803</td><td>Rekayasa Perangkat Lunak</td><td>3</td><td>91</td><td><span class="g-a">A</span></td></tr>
+            <tr><td>IF804</td><td>Basis Data Lanjut</td><td>3</td><td>84</td><td><span class="g-b">B+</span></td></tr>
+            <tr><td>IF805</td><td>Metodologi Penelitian</td><td>2</td><td>87</td><td><span class="g-a">A-</span></td></tr>
+            <tr><td>IF806</td><td>Keamanan Sistem Informasi</td><td>3</td><td>90</td><td><span class="g-a">A-</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="card-header"><div class="card-title">Distribusi Nilai</div></div>
+          <div class="dist-row"><div class="dist-label"><span style="color:var(--green);font-weight:600">A / A-</span><span>14 MK</span></div><div class="dist-track"><div class="dist-fill" style="width:60%;background:var(--green)"></div></div></div>
+          <div class="dist-row"><div class="dist-label"><span style="color:var(--blue);font-weight:600">B+ / B</span><span>9 MK</span></div><div class="dist-track"><div class="dist-fill" style="width:37%;background:var(--blue)"></div></div></div>
+          <div class="dist-row"><div class="dist-label"><span style="color:var(--orange);font-weight:600">B- / C+</span><span>1 MK</span></div><div class="dist-track"><div class="dist-fill" style="width:4%;background:var(--orange)"></div></div></div>
+          <div class="dist-row"><div class="dist-label"><span style="color:var(--red);font-weight:600">C ke bawah</span><span>0 MK</span></div><div class="dist-track"><div class="dist-fill" style="width:0%;background:var(--red)"></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">IPS Per Semester</div></div>
+          <div class="ips-row"><span>Sem 1</span><div class="ips-track"><div class="ips-fill" style="width:86%"><span>3.45</span></div></div></div>
+          <div class="ips-row"><span>Sem 2</span><div class="ips-track"><div class="ips-fill" style="width:89%"><span>3.55</span></div></div></div>
+          <div class="ips-row"><span>Sem 3</span><div class="ips-track"><div class="ips-fill" style="width:90%"><span>3.60</span></div></div></div>
+          <div class="ips-row"><span>Sem 4</span><div class="ips-track"><div class="ips-fill" style="width:93%"><span>3.70</span></div></div></div>
+          <div class="ips-row"><span>Sem 5</span><div class="ips-track"><div class="ips-fill" style="width:92%"><span>3.67</span></div></div></div>
+          <div class="ips-row"><span>Sem 6</span><div class="ips-track"><div class="ips-fill" style="width:95%"><span>3.80</span></div></div></div>
+          <div class="ips-row"><span>Sem 7</span><div class="ips-track"><div class="ips-fill" style="width:93%"><span>3.72</span></div></div></div>
+          <div class="ips-row"><span>Sem 8</span><div class="ips-track"><div class="ips-fill" style="width:95%"><span>3.80</span></div></div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    var nilaiData = {
+      7: [['IF701','Sistem Operasi',3,88,'A-','g-a'],['IF702','Pemrograman OOP',3,92,'A','g-a'],['IF703','Struktur Data',3,85,'B+','g-b'],['IF704','Basis Data',3,90,'A-','g-a'],['IF705','Pemrograman Web',3,94,'A','g-a'],['IF706','Matematika Diskret',3,82,'B+','g-b']],
+      6: [['IF601','Jaringan Komputer',3,86,'A-','g-a'],['IF602','Algoritma',3,89,'A-','g-a'],['IF603','Kalkulus',3,78,'B','g-b'],['IF604','Pemrograman Fungsional',3,91,'A','g-a'],['IF605','Logika',3,83,'B+','g-b'],['IF606','Sistem Digital',3,87,'A-','g-a']],
+      8: [['IF801','Pemrograman Web Lanjut',3,92,'A','g-a'],['IF802','Kecerdasan Buatan',3,88,'A-','g-a'],['IF803','RPL',3,91,'A','g-a'],['IF804','Basis Data Lanjut',3,84,'B+','g-b'],['IF805','Metodologi Penelitian',2,87,'A-','g-a'],['IF806','Keamanan SI',3,90,'A-','g-a']]
+    };
+    function loadNilai(sem) {
+      var rows = nilaiData[parseInt(sem)] || [];
+      var out = '';
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        out += '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td><td>' + r[3] + '</td><td><span class="' + r[5] + '">' + r[4] + '</span></td></tr>';
+      }
+      document.getElementById('nilai-tbody').innerHTML = out;
+    }
+  </script>
+</body>
+</html>

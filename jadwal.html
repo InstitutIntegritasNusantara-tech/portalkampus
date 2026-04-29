@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadwal Kuliah — Portal Akademik</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy:#0B1F3A; --navy-mid:#152d4e; --gold:#C9A84C; --gold-light:#E8C96A; --cream:#F5F0E8; --cream-dark:#EDE7D9; --white:#FFFFFF; --text-dark:#1A1A2E; --text-muted:#6B7280; --border:rgba(11,31,58,0.10); --green:#2E7D32; --green-bg:#E8F5E9; --orange:#E65100; --orange-bg:#FFF3E0; --red:#C62828; --red-bg:#FFEBEE; --blue:#1565C0; --blue-bg:#E3F2FD; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; display: flex; }
+    .sidebar { width: 260px; background: var(--navy); height: 100vh; position: sticky; top: 0; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+    .sidebar-logo { padding: 1.5rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .logo-mark { width: 40px; height: 40px; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); }
+    .logo-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .logo-text span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-user { padding: 1.2rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .avatar { width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: var(--navy); flex-shrink: 0; }
+    .user-info strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .user-info span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-nav { padding: 1rem 0.8rem; flex: 1; }
+    .nav-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,0.3); font-weight: 500; padding: .8rem .6rem .4rem; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: rgba(255,255,255,0.6); font-size: 13.5px; text-decoration: none; margin-bottom: 2px; transition: background .15s; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-item.active { background: rgba(201,168,76,0.15); color: var(--gold-light); font-weight: 500; }
+    .nav-icon { width: 18px; font-size: 14px; flex-shrink: 0; }
+    .nav-badge { margin-left: auto; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+    .sidebar-logout { padding: 1rem .8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .btn-logout { width: 100%; padding: 9px 12px; background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2); border-radius: 8px; color: #FF8A80; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .main { flex: 1; overflow-y: auto; padding: 2rem 2.5rem; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .topbar-left h1 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--navy); }
+    .topbar-left p { font-size: 14px; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .card-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
+    .tag { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+    .week-nav { display: flex; align-items: center; gap: 12px; }
+    .week-nav button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: var(--white); cursor: pointer; font-size: 14px; }
+    .week-label { font-size: 14px; font-weight: 500; color: var(--navy); }
+    .hari-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .hari-tab { padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border); background: var(--white); color: var(--text-muted); transition: all .15s; }
+    .hari-tab.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+    .jadwal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .jadwal-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem; display: flex; gap: 14px; align-items: flex-start; }
+    .jadwal-color { width: 4px; border-radius: 4px; flex-shrink: 0; align-self: stretch; }
+    .jadwal-time { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+    .jadwal-name { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+    .jadwal-dosen { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .jadwal-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+    .jadwal-tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 6px; }
+    .kosong { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      <div class="logo-text"><strong>Institut Integritas Nusantara</strong><span>Portal Akademik</span></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="avatar">AR</div>
+      <div class="user-info"><strong>Ahmad Ridwan</strong><span>2021010001 &mdash; T. Informatika</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Menu Utama</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">&#9638;</span> Dashboard</a>
+      <a class="nav-item active" href="jadwal.html"><span class="nav-icon">&#128197;</span> Jadwal Kuliah</a>
+      <a class="nav-item" href="krs.html"><span class="nav-icon">&#128203;</span> KRS / KHS</a>
+      <a class="nav-item" href="nilai.html"><span class="nav-icon">&#127891;</span> Nilai &amp; Transkrip</a>
+      <div class="nav-section-title">Layanan</div>
+      <a class="nav-item" href="keuangan.html"><span class="nav-icon">&#128176;</span> Keuangan &amp; UKT <span class="nav-badge">1</span></a>
+      <a class="nav-item" href="perpustakaan.html"><span class="nav-icon">&#128218;</span> Perpustakaan</a>
+      <a class="nav-item" href="surat.html"><span class="nav-icon">&#128221;</span> Surat Keterangan</a>
+      <a class="nav-item" href="pengumuman.html"><span class="nav-icon">&#128227;</span> Pengumuman <span class="nav-badge">3</span></a>
+    </nav>
+    <div class="sidebar-logout">
+      <button class="btn-logout" onclick="window.location.href='login.html'">&#8592; Keluar dari Portal</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Jadwal Kuliah</h1>
+        <p>Semester Genap 2025/2026 &middot; Kelas A</p>
+      </div>
+      <div class="topbar-right">
+        <div class="week-nav">
+          <button onclick="prevWeek()">&#8249;</button>
+          <span class="week-label" id="weekLabel">21 &ndash; 25 April 2026</span>
+          <button onclick="nextWeek()">&#8250;</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="hari-tabs">
+      <button class="hari-tab" id="tab-senin" onclick="showHari('senin')">Senin</button>
+      <button class="hari-tab active" id="tab-selasa" onclick="showHari('selasa')">Selasa &nbsp;<span style="font-size:10px;background:var(--gold);color:var(--navy);padding:1px 5px;border-radius:4px">Hari Ini</span></button>
+      <button class="hari-tab" id="tab-rabu" onclick="showHari('rabu')">Rabu</button>
+      <button class="hari-tab" id="tab-kamis" onclick="showHari('kamis')">Kamis</button>
+      <button class="hari-tab" id="tab-jumat" onclick="showHari('jumat')">Jumat</button>
+    </div>
+
+    <div id="jadwal-content" class="jadwal-grid"></div>
+  </main>
+
+  <script>
+    var jadwalData = {
+      senin: [
+        { time:'08:00-09:40', name:'Jaringan Komputer', dosen:'Dr. Hendra Wijaya, M.T', ruang:'GD-A 201', sks:3, type:'Wajib', color:'#C9A84C', tbg:'#FFF8E1', tc:'#C9A84C' },
+        { time:'10:00-11:40', name:'Statistika & Probabilitas', dosen:'Dr. Maya Putri, M.Si', ruang:'GD-B 105', sks:3, type:'Wajib', color:'#C9A84C', tbg:'#FFF8E1', tc:'#C9A84C' },
+        { time:'13:00-15:30', name:'Praktikum Jaringan', dosen:'Asisten Lab', ruang:'Lab Jarkom', sks:1, type:'Praktikum', color:'#2E7D32', tbg:'#E8F5E9', tc:'#2E7D32' }
+      ],
+      selasa: [
+        { time:'07:30-09:10', name:'Pemrograman Web Lanjut', dosen:'Dr. Budi Santoso, M.Kom', ruang:'GD-B 304', sks:3, type:'Wajib', color:'#C9A84C', tbg:'#FFF8E1', tc:'#C9A84C' },
+        { time:'09:30-11:10', name:'Kecerdasan Buatan', dosen:'Prof. Siti Rahayu, Ph.D', ruang:'Lab TI 1', sks:3, type:'Pilihan', color:'#1565C0', tbg:'#E3F2FD', tc:'#1565C0' },
+        { time:'13:00-14:40', name:'Rekayasa Perangkat Lunak', dosen:'Ir. Andi Kurniawan, M.T', ruang:'GD-C 201', sks:3, type:'Wajib', color:'#C9A84C', tbg:'#FFF8E1', tc:'#C9A84C' },
+        { time:'15:00-16:40', name:'Basis Data Lanjut', dosen:'Dr. Rina Wijaya, M.Cs', ruang:'Lab DB', sks:3, type:'Wajib', color:'#C9A84C', tbg:'#FFF8E1', tc:'#C9A84C' }
+      ],
+      rabu: [
+        { time:'08:00-09:40', name:'Keamanan Sistem Informasi', dosen:'Dr. Fauzan Azmi, M.Kom', ruang:'GD-A 303', sks:3, type:'Pilihan', color:'#1565C0', tbg:'#E3F2FD', tc:'#1565C0' },
+        { time:'13:00-14:40', name:'Metodologi Penelitian', dosen:'Prof. Ahmad Dahlan, Ph.D', ruang:'GD-B 201', sks:2, type:'Wajib', color:'#C9A84C', tbg:'#FFF8E1', tc:'#C9A84C' }
+      ],
+      kamis: [
+        { time:'07:30-09:10', name:'Pemrograman Mobile', dosen:'Dr. Lusi Fajarini, M.T', ruang:'Lab TI 2', sks:3, type:'Pilihan', color:'#1565C0', tbg:'#E3F2FD', tc:'#1565C0' },
+        { time:'09:30-12:00', name:'Praktikum Pemrograman Web', dosen:'Asisten Lab', ruang:'Lab Web', sks:1, type:'Praktikum', color:'#2E7D32', tbg:'#E8F5E9', tc:'#2E7D32' }
+      ],
+      jumat: [
+        { time:'08:00-09:40', name:'Etika Profesi IT', dosen:'Drs. Bambang S., M.Hum', ruang:'GD-C 101', sks:2, type:'Wajib', color:'#C9A84C', tbg:'#FFF8E1', tc:'#C9A84C' },
+        { time:'10:00-11:40', name:'Manajemen Proyek TI', dosen:'Dr. Dewi Kusuma, MBA', ruang:'GD-A 204', sks:3, type:'Wajib', color:'#C9A84C', tbg:'#FFF8E1', tc:'#C9A84C' }
+      ]
+    };
+
+    function showHari(hari) {
+      var tabs = ['senin','selasa','rabu','kamis','jumat'];
+      for (var i = 0; i < tabs.length; i++) {
+        var t = document.getElementById('tab-' + tabs[i]);
+        if (t) { t.className = 'hari-tab' + (tabs[i] === hari ? ' active' : ''); }
+      }
+      var mks = jadwalData[hari] || [];
+      var el = document.getElementById('jadwal-content');
+      if (mks.length === 0) {
+        el.innerHTML = '<div class="kosong">Tidak ada kuliah hari ini</div>';
+        return;
+      }
+      var out = '';
+      for (var j = 0; j < mks.length; j++) {
+        var m = mks[j];
+        out += '<div class="jadwal-card">';
+        out += '<div class="jadwal-color" style="background:' + m.color + '"></div>';
+        out += '<div style="flex:1">';
+        out += '<div class="jadwal-time">' + m.time + '</div>';
+        out += '<div class="jadwal-name">' + m.name + '</div>';
+        out += '<div class="jadwal-dosen">' + m.dosen + '</div>';
+        out += '<div class="jadwal-meta">';
+        out += '<span class="jadwal-tag" style="background:' + m.tbg + ';color:' + m.tc + '">' + m.type + '</span>';
+        out += '<span class="jadwal-tag" style="background:#F5F0E8;color:#6B7280">&#128205; ' + m.ruang + '</span>';
+        out += '<span class="jadwal-tag" style="background:#F5F0E8;color:#6B7280">' + m.sks + ' SKS</span>';
+        out += '</div></div></div>';
+      }
+      el.innerHTML = out;
+    }
+
+    var weekOffset = 0;
+    function updateWeekLabel() {
+      var base = new Date(2026, 3, 21);
+      base.setDate(base.getDate() + weekOffset * 7);
+      var end = new Date(base);
+      end.setDate(end.getDate() + 4);
+      var months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
+      document.getElementById('weekLabel').textContent = base.getDate() + ' ' + months[base.getMonth()] + ' \u2013 ' + end.getDate() + ' ' + months[end.getMonth()] + ' ' + end.getFullYear();
+    }
+    function prevWeek() { weekOffset--; updateWeekLabel(); }
+    function nextWeek() { weekOffset++; updateWeekLabel(); }
+
+    showHari('selasa');
+  </script>
+</body>
+</html>

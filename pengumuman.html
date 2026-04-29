@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengumuman — Portal Akademik</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy:#0B1F3A; --navy-mid:#152d4e; --gold:#C9A84C; --gold-light:#E8C96A; --cream:#F5F0E8; --cream-dark:#EDE7D9; --white:#FFFFFF; --text-dark:#1A1A2E; --text-muted:#6B7280; --border:rgba(11,31,58,0.10); --green:#2E7D32; --green-bg:#E8F5E9; --orange:#E65100; --orange-bg:#FFF3E0; --red:#C62828; --red-bg:#FFEBEE; --blue:#1565C0; --blue-bg:#E3F2FD; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; display: flex; }
+    .sidebar { width: 260px; background: var(--navy); height: 100vh; position: sticky; top: 0; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+    .sidebar-logo { padding: 1.5rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .logo-mark { width: 40px; height: 40px; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); }
+    .logo-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .logo-text span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-user { padding: 1.2rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .avatar { width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: var(--navy); flex-shrink: 0; }
+    .user-info strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .user-info span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-nav { padding: 1rem 0.8rem; flex: 1; }
+    .nav-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,0.3); font-weight: 500; padding: .8rem .6rem .4rem; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: rgba(255,255,255,0.6); font-size: 13.5px; text-decoration: none; margin-bottom: 2px; transition: background .15s; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-item.active { background: rgba(201,168,76,0.15); color: var(--gold-light); font-weight: 500; }
+    .nav-icon { width: 18px; font-size: 14px; flex-shrink: 0; }
+    .nav-badge { margin-left: auto; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+    .sidebar-logout { padding: 1rem .8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .btn-logout { width: 100%; padding: 9px 12px; background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2); border-radius: 8px; color: #FF8A80; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .main { flex: 1; overflow-y: auto; padding: 2rem 2.5rem; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .topbar-left h1 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--navy); }
+    .topbar-left p { font-size: 14px; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .card-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
+    .card-link { font-size: 12px; color: var(--gold); text-decoration: none; font-weight: 500; }
+    .tag { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+    .tag-green { background: var(--green-bg); color: var(--green); }
+    .tag-orange { background: var(--orange-bg); color: var(--orange); }
+    .tag-red { background: var(--red-bg); color: var(--red); }
+    .tag-blue { background: var(--blue-bg); color: var(--blue); }
+    .tag-navy { background: rgba(11,31,58,0.08); color: var(--navy); }
+    .btn { padding: 10px 20px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; }
+    .btn-primary { background: var(--navy); color: var(--white); }
+    .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 20px; border-radius: 8px; }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); font-weight: 500; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { font-size: 13.5px; color: var(--text-dark); padding: 12px 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--cream); }
+    .filter-bar { display:flex; gap:8px; margin-bottom:1.5rem; flex-wrap:wrap; align-items:center; }
+    .filter-btn { padding:7px 16px; border-radius:8px; font-size:13px; font-weight:500; cursor:pointer; border:1.5px solid var(--border); background:var(--white); color:var(--text-muted); }
+    .filter-btn.active { background:var(--navy); color:var(--white); border-color:var(--navy); }
+    .peng-card { background:var(--white); border:1px solid var(--border); border-radius:14px; padding:1.4rem; cursor:pointer; margin-bottom:1rem; position:relative; }
+    .peng-card:hover { box-shadow:0 4px 16px rgba(11,31,58,.08); }
+    .peng-card.unread { border-left:4px solid var(--gold); }
+    .new-badge { position:absolute; top:14px; right:14px; background:var(--gold); color:var(--navy); font-size:9px; font-weight:700; padding:2px 8px; border-radius:4px; }
+    .peng-badge { font-size:10px; font-weight:600; padding:4px 10px; border-radius:6px; text-transform:uppercase; display:inline-block; margin-bottom:8px; }
+    .b-akademik { background:var(--blue-bg); color:var(--blue); }
+    .b-keuangan { background:var(--orange-bg); color:var(--orange); }
+    .b-umum { background:var(--green-bg); color:var(--green); }
+    .b-kemahasiswaan { background:#F3E5F5; color:#6A1B9A; }
+    .peng-title { font-family:'DM Serif Display',serif; font-size:1.05rem; color:var(--navy); margin-bottom:8px; }
+    .peng-excerpt { font-size:13px; color:var(--text-muted); line-height:1.7; }
+    .peng-footer { display:flex; justify-content:space-between; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); font-size:12px; color:var(--text-muted); }
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:100; align-items:flex-start; justify-content:center; padding:2rem; overflow-y:auto; }
+    .modal-overlay.open { display:flex; }
+    .modal-box { background:var(--white); border-radius:16px; padding:2.5rem; width:700px; max-width:100%; margin:auto; }
+    .modal-box h2 { font-family:'DM Serif Display',serif; font-size:1.8rem; color:var(--navy); margin-bottom:1rem; line-height:1.3; }
+    .modal-body { font-size:14px; color:var(--text-dark); line-height:1.9; }
+    .modal-body p { margin-bottom:1rem; }
+    .modal-body ul { padding-left:1.5rem; margin-bottom:1rem; }
+    .modal-body li { margin-bottom:4px; }
+    .modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:1.5rem; }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      <div class="logo-text"><strong>Institut Integritas Nusantara</strong><span>Portal Akademik</span></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="avatar">AR</div>
+      <div class="user-info"><strong>Ahmad Ridwan</strong><span>2021010001 &mdash; T. Informatika</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Menu Utama</div>
+      <a class="nav-item " href="dashboard.html"><span class="nav-icon">&#9638;</span> Dashboard</a>
+      <a class="nav-item " href="jadwal.html"><span class="nav-icon">&#128197;</span> Jadwal Kuliah</a>
+      <a class="nav-item " href="krs.html"><span class="nav-icon">&#128203;</span> KRS / KHS</a>
+      <a class="nav-item " href="nilai.html"><span class="nav-icon">&#127891;</span> Nilai &amp; Transkrip</a>
+      <div class="nav-section-title">Layanan</div>
+      <a class="nav-item " href="keuangan.html"><span class="nav-icon">&#128176;</span> Keuangan &amp; UKT <span class="nav-badge">1</span></a>
+      <a class="nav-item " href="perpustakaan.html"><span class="nav-icon">&#128218;</span> Perpustakaan</a>
+      <a class="nav-item " href="surat.html"><span class="nav-icon">&#128221;</span> Surat Keterangan</a>
+      <a class="nav-item active" href="pengumuman.html"><span class="nav-icon">&#128227;</span> Pengumuman <span class="nav-badge">3</span></a>
+    </nav>
+    <div class="sidebar-logout">
+      <button class="btn-logout" onclick="window.location.href='login.html'">&#8592; Keluar dari Portal</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left"><h1>Pengumuman</h1><p>3 pengumuman baru belum dibaca</p></div>
+      <div class="topbar-right">
+        <button class="btn-outline" onclick="bacaSemua()">&#10003; Tandai Semua Dibaca</button>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterPeng('all',this)">Semua</button>
+      <button class="filter-btn" onclick="filterPeng('akademik',this)">Akademik</button>
+      <button class="filter-btn" onclick="filterPeng('keuangan',this)">Keuangan</button>
+      <button class="filter-btn" onclick="filterPeng('umum',this)">Umum</button>
+      <button class="filter-btn" onclick="filterPeng('kemahasiswaan',this)">Kemahasiswaan</button>
+    </div>
+    <div id="peng-list"></div>
+  </main>
+
+  <div class="modal-overlay" id="modalDetail" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+      <div id="modalContent"></div>
+      <div class="modal-actions">
+        <button class="btn-outline" onclick="closeModal()">Tutup</button>
+        <button class="btn btn-primary" onclick="alert('Mengunduh...')">Unduh PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var pengData = [
+      { id:1, kat:'akademik', unread:true, tgl:'25 April 2026', judul:'Pendaftaran KRS Semester Gasal 2026/2027 Dibuka', excerpt:'Mahasiswa aktif wajib melakukan pengisian KRS untuk semester gasal 2026/2027 melalui portal akademik mulai 1 Mei 2026.', isi:'<p>Pendaftaran KRS Semester Gasal 2026/2027 dibuka mulai <strong>1 Mei 2026</strong>.</p><p><strong>Jadwal:</strong></p><ul><li>Semester 2 &amp; 4: 1&ndash;5 Mei 2026</li><li>Semester 6 &amp; 8: 6&ndash;10 Mei 2026</li><li>Semester lainnya: 11&ndash;15 Mei 2026</li></ul><p>Mahasiswa wajib konsultasi dengan Dosen PA sebelum mengisi KRS.</p>', penulis:'Biro Akademik', views:1842 },
+      { id:2, kat:'keuangan', unread:true, tgl:'23 April 2026', judul:'Perpanjangan Batas Akhir Pembayaran Biaya Praktikum', excerpt:'Biro Keuangan memberikan perpanjangan batas akhir pembayaran biaya praktikum hingga 30 April 2026.', isi:'<p>Batas akhir baru pembayaran biaya praktikum: <strong>30 April 2026</strong>.</p><p>Mahasiswa yang belum membayar harap segera menyelesaikan kewajiban untuk menghindari pembatasan akses.</p>', penulis:'Biro Keuangan', views:956 },
+      { id:3, kat:'akademik', unread:true, tgl:'20 April 2026', judul:'Jadwal Ujian Akhir Semester (UAS) Genap 2025/2026', excerpt:'UAS Genap 2025/2026 akan dilaksanakan pada 2&ndash;13 Juni 2026. Syarat kehadiran minimal 75%.', isi:'<p>UAS dilaksanakan <strong>2 &ndash; 13 Juni 2026</strong>.</p><ul><li>Sesi I: 08:00&ndash;10:00</li><li>Sesi II: 10:30&ndash;12:30</li><li>Sesi III: 13:30&ndash;15:30</li><li>Sesi IV: 16:00&ndash;18:00</li></ul><p>Syarat: kehadiran minimal 75% dan tidak memiliki tunggakan keuangan.</p>', penulis:'Biro Akademik', views:3241 },
+      { id:4, kat:'kemahasiswaan', unread:false, tgl:'18 April 2026', judul:'Pendaftaran Wisuda Gelombang II Tahun 2026 Dibuka', excerpt:'Mahasiswa yang telah memenuhi syarat kelulusan dapat mendaftar Wisuda Gelombang II, Agustus 2026.', isi:'<p>Pendaftaran Wisuda Gelombang II dibuka. <strong>Persyaratan:</strong></p><ul><li>Lulus semua mata kuliah</li><li>IPK minimal 2.00</li><li>Tidak ada tunggakan keuangan</li><li>Skripsi sudah disetujui</li></ul><p>Biaya wisuda: Rp 750.000.</p>', penulis:'Biro Kemahasiswaan', views:2105 },
+      { id:5, kat:'umum', unread:false, tgl:'15 April 2026', judul:'Libur Hari Raya Waisak &mdash; Kampus Tutup 12 Mei 2026', excerpt:'Seluruh kegiatan akademik dan administrasi kampus diliburkan pada Senin, 12 Mei 2026.', isi:'<p>Kampus diliburkan pada <strong>Senin, 12 Mei 2026</strong> (Hari Raya Waisak 2570 BE).</p><p>Kegiatan kembali normal pada Selasa, 13 Mei 2026.</p>', penulis:'Rektorat', views:784 }
+    ];
+
+    var badgeClass = { akademik:'b-akademik', keuangan:'b-keuangan', umum:'b-umum', kemahasiswaan:'b-kemahasiswaan' };
+    var currentFilter = 'all';
+
+    function renderPeng(data) {
+      var out = '';
+      for (var i = 0; i < data.length; i++) {
+        var p = data[i];
+        out += '<div class="peng-card' + (p.unread ? ' unread' : '') + '" onclick="openDetail(' + p.id + ')">';
+        if (p.unread) { out += '<div class="new-badge">BARU</div>'; }
+        out += '<span class="peng-badge ' + badgeClass[p.kat] + '">' + p.kat + '</span>';
+        out += '<div class="peng-title">' + p.judul + '</div>';
+        out += '<div class="peng-excerpt">' + p.excerpt + '</div>';
+        out += '<div class="peng-footer"><span>&#128204; ' + p.penulis + '</span><span>&#128065; ' + p.views + ' dibaca &middot; ' + p.tgl + '</span></div>';
+        out += '</div>';
+      }
+      document.getElementById('peng-list').innerHTML = out;
+    }
+
+    function filterPeng(kat, btn) {
+      currentFilter = kat;
+      var btns = document.querySelectorAll('.filter-btn');
+      for (var i = 0; i < btns.length; i++) { btns[i].className = 'filter-btn'; }
+      btn.className = 'filter-btn active';
+      var filtered = kat === 'all' ? pengData : pengData.filter(function(p) { return p.kat === kat; });
+      renderPeng(filtered);
+    }
+
+    function openDetail(id) {
+      var p = null;
+      for (var i = 0; i < pengData.length; i++) { if (pengData[i].id === id) { p = pengData[i]; break; } }
+      if (!p) { return; }
+      p.unread = false;
+      renderPeng(currentFilter === 'all' ? pengData : pengData.filter(function(x) { return x.kat === currentFilter; }));
+      document.getElementById('modalContent').innerHTML = '<div style="margin-bottom:1rem"><span class="peng-badge ' + badgeClass[p.kat] + '">' + p.kat + '</span> <span style="font-size:13px;color:var(--text-muted)">' + p.tgl + ' &middot; ' + p.penulis + '</span></div><h2>' + p.judul + '</h2><div class="modal-body">' + p.isi + '</div>';
+      document.getElementById('modalDetail').className = 'modal-overlay open';
+    }
+
+    function closeModal() { document.getElementById('modalDetail').className = 'modal-overlay'; }
+
+    function bacaSemua() {
+      for (var i = 0; i < pengData.length; i++) { pengData[i].unread = false; }
+      renderPeng(currentFilter === 'all' ? pengData : pengData.filter(function(p) { return p.kat === currentFilter; }));
+    }
+
+    renderPeng(pengData);
+  </script>
+</body>
+</html>

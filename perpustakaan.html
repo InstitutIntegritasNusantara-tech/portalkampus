@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perpustakaan — Portal Akademik</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy:#0B1F3A; --navy-mid:#152d4e; --gold:#C9A84C; --gold-light:#E8C96A; --cream:#F5F0E8; --cream-dark:#EDE7D9; --white:#FFFFFF; --text-dark:#1A1A2E; --text-muted:#6B7280; --border:rgba(11,31,58,0.10); --green:#2E7D32; --green-bg:#E8F5E9; --orange:#E65100; --orange-bg:#FFF3E0; --red:#C62828; --red-bg:#FFEBEE; --blue:#1565C0; --blue-bg:#E3F2FD; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; display: flex; }
+    .sidebar { width: 260px; background: var(--navy); height: 100vh; position: sticky; top: 0; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+    .sidebar-logo { padding: 1.5rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .logo-mark { width: 40px; height: 40px; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); }
+    .logo-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .logo-text span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-user { padding: 1.2rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .avatar { width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: var(--navy); flex-shrink: 0; }
+    .user-info strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .user-info span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-nav { padding: 1rem 0.8rem; flex: 1; }
+    .nav-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,0.3); font-weight: 500; padding: .8rem .6rem .4rem; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: rgba(255,255,255,0.6); font-size: 13.5px; text-decoration: none; margin-bottom: 2px; transition: background .15s; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-item.active { background: rgba(201,168,76,0.15); color: var(--gold-light); font-weight: 500; }
+    .nav-icon { width: 18px; font-size: 14px; flex-shrink: 0; }
+    .nav-badge { margin-left: auto; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+    .sidebar-logout { padding: 1rem .8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .btn-logout { width: 100%; padding: 9px 12px; background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2); border-radius: 8px; color: #FF8A80; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .main { flex: 1; overflow-y: auto; padding: 2rem 2.5rem; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .topbar-left h1 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--navy); }
+    .topbar-left p { font-size: 14px; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .card-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
+    .card-link { font-size: 12px; color: var(--gold); text-decoration: none; font-weight: 500; }
+    .tag { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+    .tag-green { background: var(--green-bg); color: var(--green); }
+    .tag-orange { background: var(--orange-bg); color: var(--orange); }
+    .tag-red { background: var(--red-bg); color: var(--red); }
+    .tag-blue { background: var(--blue-bg); color: var(--blue); }
+    .tag-navy { background: rgba(11,31,58,0.08); color: var(--navy); }
+    .btn { padding: 10px 20px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; }
+    .btn-primary { background: var(--navy); color: var(--white); }
+    .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 20px; border-radius: 8px; }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); font-weight: 500; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { font-size: 13.5px; color: var(--text-dark); padding: 12px 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--cream); }
+    .stat4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
+    .stat-box { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1.2rem; text-align:center; }
+    .stat-box .ico { font-size:2rem; margin-bottom:6px; }
+    .stat-box .val { font-size:22px; font-weight:700; color:var(--navy); }
+    .stat-box .lbl { font-size:12px; color:var(--text-muted); }
+    .pinjam-row { display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--border); }
+    .pinjam-row:last-child { border-bottom:none; }
+    .buku-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1rem; }
+    .buku-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1.2rem; }
+    .buku-cover { width:100%; height:100px; background:var(--cream-dark); border-radius:8px; margin-bottom:10px; display:flex; align-items:center; justify-content:center; font-size:2.5rem; }
+    .buku-title { font-size:13px; font-weight:600; color:var(--navy); margin-bottom:4px; line-height:1.3; }
+    .buku-author { font-size:11px; color:var(--text-muted); margin-bottom:8px; }
+    .buku-footer { display:flex; align-items:center; justify-content:space-between; }
+    .search-row { display:flex; gap:10px; margin-bottom:1rem; }
+    .search-row input { flex:1; padding:10px 14px; border:1.5px solid var(--border); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:14px; outline:none; }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      <div class="logo-text"><strong>Institut Integritas Nusantara</strong><span>Portal Akademik</span></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="avatar">AR</div>
+      <div class="user-info"><strong>Ahmad Ridwan</strong><span>2021010001 &mdash; T. Informatika</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Menu Utama</div>
+      <a class="nav-item " href="dashboard.html"><span class="nav-icon">&#9638;</span> Dashboard</a>
+      <a class="nav-item " href="jadwal.html"><span class="nav-icon">&#128197;</span> Jadwal Kuliah</a>
+      <a class="nav-item " href="krs.html"><span class="nav-icon">&#128203;</span> KRS / KHS</a>
+      <a class="nav-item " href="nilai.html"><span class="nav-icon">&#127891;</span> Nilai &amp; Transkrip</a>
+      <div class="nav-section-title">Layanan</div>
+      <a class="nav-item " href="keuangan.html"><span class="nav-icon">&#128176;</span> Keuangan &amp; UKT <span class="nav-badge">1</span></a>
+      <a class="nav-item active" href="perpustakaan.html"><span class="nav-icon">&#128218;</span> Perpustakaan</a>
+      <a class="nav-item " href="surat.html"><span class="nav-icon">&#128221;</span> Surat Keterangan</a>
+      <a class="nav-item " href="pengumuman.html"><span class="nav-icon">&#128227;</span> Pengumuman <span class="nav-badge">3</span></a>
+    </nav>
+    <div class="sidebar-logout">
+      <button class="btn-logout" onclick="window.location.href='login.html'">&#8592; Keluar dari Portal</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left"><h1>Perpustakaan</h1><p>Koleksi 45.000+ buku &middot; Akses digital 24/7</p></div>
+      <div class="topbar-right"><span style="font-size:13px;color:var(--text-muted)">Kartu: <strong style="color:var(--navy)">LIB-2021010001</strong></span></div>
+    </div>
+    <div class="stat4">
+      <div class="stat-box"><div class="ico">&#128218;</div><div class="val">3</div><div class="lbl">Buku Dipinjam</div></div>
+      <div class="stat-box"><div class="ico">&#9200;</div><div class="val">1</div><div class="lbl">Hampir Jatuh Tempo</div></div>
+      <div class="stat-box"><div class="ico">&#10003;</div><div class="val">47</div><div class="lbl">Total Pernah Pinjam</div></div>
+      <div class="stat-box"><div class="ico">&#128176;</div><div class="val">Rp 15.000</div><div class="lbl">Denda Aktif</div></div>
+    </div>
+    <div class="card" style="margin-bottom:1.5rem">
+      <div class="card-header"><div class="card-title">Pinjaman Aktif</div></div>
+      <div class="pinjam-row">
+        <div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:50px;background:var(--cream-dark);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.4rem">&#128215;</div><div><div style="font-size:14px;font-weight:500;color:var(--navy)">Artificial Intelligence: A Modern Approach</div><div style="font-size:12px;color:var(--text-muted)">Russell &amp; Norvig</div></div></div>
+        <div style="text-align:right"><div style="font-size:12px;font-weight:500;color:var(--green)">&#10003; Kembali: 5 Mei 2026</div><button class="btn-outline" style="padding:5px 12px;font-size:12px;margin-top:4px" onclick="alert('Perpanjangan diajukan!')">Perpanjang</button></div>
+      </div>
+      <div class="pinjam-row">
+        <div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:50px;background:var(--cream-dark);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.4rem">&#128216;</div><div><div style="font-size:14px;font-weight:500;color:var(--navy)">Clean Code</div><div style="font-size:12px;color:var(--text-muted)">Robert C. Martin</div></div></div>
+        <div style="text-align:right"><div style="font-size:12px;font-weight:500;color:var(--red)">&#9888; Kembali: 25 Apr 2026</div><button class="btn-outline" style="padding:5px 12px;font-size:12px;margin-top:4px" onclick="alert('Perpanjangan diajukan!')">Perpanjang</button></div>
+      </div>
+      <div class="pinjam-row">
+        <div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:50px;background:var(--cream-dark);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.4rem">&#128217;</div><div><div style="font-size:14px;font-weight:500;color:var(--navy)">Database System Concepts</div><div style="font-size:12px;color:var(--text-muted)">Silberschatz et al.</div></div></div>
+        <div style="text-align:right"><div style="font-size:12px;font-weight:500;color:var(--green)">&#10003; Kembali: 2 Mei 2026</div><button class="btn-outline" style="padding:5px 12px;font-size:12px;margin-top:4px" onclick="alert('Perpanjangan diajukan!')">Perpanjang</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Katalog Buku</div></div>
+      <div class="search-row">
+        <input type="text" id="searchInput" placeholder="Cari judul, pengarang, ISBN...">
+        <button class="btn btn-primary" onclick="alert('Mencari: ' + document.getElementById('searchInput').value)">&#128269; Cari</button>
+      </div>
+      <div class="buku-grid">
+        <div class="buku-card"><div class="buku-cover">&#128215;</div><div class="buku-title">Pemrograman Python Dasar</div><div class="buku-author">Guido van Rossum</div><div class="buku-footer"><span class="tag tag-green">Tersedia</span><button class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="alert('Direservasi!')">Pinjam</button></div></div>
+        <div class="buku-card"><div class="buku-cover">&#128216;</div><div class="buku-title">Machine Learning with TensorFlow</div><div class="buku-author">Aurélien Géron</div><div class="buku-footer"><span class="tag tag-green">Tersedia</span><button class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="alert('Direservasi!')">Pinjam</button></div></div>
+        <div class="buku-card"><div class="buku-cover">&#128217;</div><div class="buku-title">Jaringan Komputer</div><div class="buku-author">Andrew Tanenbaum</div><div class="buku-footer"><span class="tag tag-orange">Dipinjam</span><button class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="alert('Antrian ditambahkan!')">Antri</button></div></div>
+        <div class="buku-card"><div class="buku-cover">&#128218;</div><div class="buku-title">Kalkulus Edisi 9</div><div class="buku-author">James Stewart</div><div class="buku-footer"><span class="tag tag-green">Tersedia</span><button class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="alert('Direservasi!')">Pinjam</button></div></div>
+        <div class="buku-card"><div class="buku-cover">&#128215;</div><div class="buku-title">Design Patterns</div><div class="buku-author">Gang of Four</div><div class="buku-footer"><span class="tag tag-green">Tersedia</span><button class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="alert('Direservasi!')">Pinjam</button></div></div>
+        <div class="buku-card"><div class="buku-cover">&#128216;</div><div class="buku-title">Operating System Concepts</div><div class="buku-author">Silberschatz</div><div class="buku-footer"><span class="tag tag-green">2 Tersedia</span><button class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="alert('Direservasi!')">Pinjam</button></div></div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

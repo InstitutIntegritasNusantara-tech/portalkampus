@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surat Keterangan — Portal Akademik</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy:#0B1F3A; --navy-mid:#152d4e; --gold:#C9A84C; --gold-light:#E8C96A; --cream:#F5F0E8; --cream-dark:#EDE7D9; --white:#FFFFFF; --text-dark:#1A1A2E; --text-muted:#6B7280; --border:rgba(11,31,58,0.10); --green:#2E7D32; --green-bg:#E8F5E9; --orange:#E65100; --orange-bg:#FFF3E0; --red:#C62828; --red-bg:#FFEBEE; --blue:#1565C0; --blue-bg:#E3F2FD; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; display: flex; }
+    .sidebar { width: 260px; background: var(--navy); height: 100vh; position: sticky; top: 0; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+    .sidebar-logo { padding: 1.5rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .logo-mark { width: 40px; height: 40px; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); }
+    .logo-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .logo-text span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-user { padding: 1.2rem 1.4rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .avatar { width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: var(--navy); flex-shrink: 0; }
+    .user-info strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .user-info span { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .sidebar-nav { padding: 1rem 0.8rem; flex: 1; }
+    .nav-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,0.3); font-weight: 500; padding: .8rem .6rem .4rem; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: rgba(255,255,255,0.6); font-size: 13.5px; text-decoration: none; margin-bottom: 2px; transition: background .15s; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-item.active { background: rgba(201,168,76,0.15); color: var(--gold-light); font-weight: 500; }
+    .nav-icon { width: 18px; font-size: 14px; flex-shrink: 0; }
+    .nav-badge { margin-left: auto; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+    .sidebar-logout { padding: 1rem .8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .btn-logout { width: 100%; padding: 9px 12px; background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2); border-radius: 8px; color: #FF8A80; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .main { flex: 1; overflow-y: auto; padding: 2rem 2.5rem; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .topbar-left h1 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--navy); }
+    .topbar-left p { font-size: 14px; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .card-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
+    .card-link { font-size: 12px; color: var(--gold); text-decoration: none; font-weight: 500; }
+    .tag { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+    .tag-green { background: var(--green-bg); color: var(--green); }
+    .tag-orange { background: var(--orange-bg); color: var(--orange); }
+    .tag-red { background: var(--red-bg); color: var(--red); }
+    .tag-blue { background: var(--blue-bg); color: var(--blue); }
+    .tag-navy { background: rgba(11,31,58,0.08); color: var(--navy); }
+    .btn { padding: 10px 20px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; }
+    .btn-primary { background: var(--navy); color: var(--white); }
+    .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 20px; border-radius: 8px; }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); font-weight: 500; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { font-size: 13.5px; color: var(--text-dark); padding: 12px 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--cream); }
+    .surat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.5rem; }
+    .surat-card { background:var(--white); border:2px solid var(--border); border-radius:14px; padding:1.4rem; cursor:pointer; text-align:center; transition:all .2s; }
+    .surat-card:hover { border-color:var(--navy); transform:translateY(-2px); }
+    .surat-card.selected { border-color:var(--gold); background:var(--cream); }
+    .surat-icon { font-size:2.2rem; margin-bottom:10px; }
+    .surat-name { font-size:14px; font-weight:600; color:var(--navy); margin-bottom:4px; }
+    .surat-desc { font-size:11px; color:var(--text-muted); }
+    .surat-dur { font-size:11px; color:var(--gold); font-weight:500; margin-top:6px; }
+    .form-group { margin-bottom:1.2rem; }
+    .form-group label { display:block; font-size:12px; font-weight:500; color:var(--navy); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+    .form-group input, .form-group select, .form-group textarea { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:14px; outline:none; background:var(--white); }
+    .form-group textarea { resize:vertical; min-height:80px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .two-col { display:grid; grid-template-columns:3fr 2fr; gap:1.5rem; }
+    .riwayat-row { display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--border); }
+    .riwayat-row:last-child { border-bottom:none; }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      <div class="logo-text"><strong>Institut Integritas Nusantara</strong><span>Portal Akademik</span></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="avatar">AR</div>
+      <div class="user-info"><strong>Ahmad Ridwan</strong><span>2021010001 &mdash; T. Informatika</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Menu Utama</div>
+      <a class="nav-item " href="dashboard.html"><span class="nav-icon">&#9638;</span> Dashboard</a>
+      <a class="nav-item " href="jadwal.html"><span class="nav-icon">&#128197;</span> Jadwal Kuliah</a>
+      <a class="nav-item " href="krs.html"><span class="nav-icon">&#128203;</span> KRS / KHS</a>
+      <a class="nav-item " href="nilai.html"><span class="nav-icon">&#127891;</span> Nilai &amp; Transkrip</a>
+      <div class="nav-section-title">Layanan</div>
+      <a class="nav-item " href="keuangan.html"><span class="nav-icon">&#128176;</span> Keuangan &amp; UKT <span class="nav-badge">1</span></a>
+      <a class="nav-item " href="perpustakaan.html"><span class="nav-icon">&#128218;</span> Perpustakaan</a>
+      <a class="nav-item active" href="surat.html"><span class="nav-icon">&#128221;</span> Surat Keterangan</a>
+      <a class="nav-item " href="pengumuman.html"><span class="nav-icon">&#128227;</span> Pengumuman <span class="nav-badge">3</span></a>
+    </nav>
+    <div class="sidebar-logout">
+      <button class="btn-logout" onclick="window.location.href='login.html'">&#8592; Keluar dari Portal</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left"><h1>Surat Keterangan</h1><p>Pengajuan surat aktif, magang, dan dokumen akademik</p></div>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="card" style="margin-bottom:1.5rem">
+          <div class="card-header"><div class="card-title">Pilih Jenis Surat</div></div>
+          <div class="surat-grid">
+            <div class="surat-card selected" onclick="pilihSurat(this,'Surat Aktif Kuliah')"><div class="surat-icon">&#128196;</div><div class="surat-name">Surat Aktif Kuliah</div><div class="surat-desc">Keperluan umum</div><div class="surat-dur">1-2 hari kerja</div></div>
+            <div class="surat-card" onclick="pilihSurat(this,'Surat Keterangan Magang')"><div class="surat-icon">&#127970;</div><div class="surat-name">Surat Keterangan Magang</div><div class="surat-desc">Pengantar ke perusahaan</div><div class="surat-dur">2-3 hari kerja</div></div>
+            <div class="surat-card" onclick="pilihSurat(this,'Surat Keterangan Lulus')"><div class="surat-icon">&#127891;</div><div class="surat-name">Surat Keterangan Lulus</div><div class="surat-desc">Sebelum ijazah terbit</div><div class="surat-dur">3-5 hari kerja</div></div>
+            <div class="surat-card" onclick="pilihSurat(this,'Surat untuk Bank')"><div class="surat-icon">&#127970;</div><div class="surat-name">Surat untuk Bank</div><div class="surat-desc">Pembukaan rekening, KPR</div><div class="surat-dur">1-2 hari kerja</div></div>
+            <div class="surat-card" onclick="pilihSurat(this,'Surat Rekomendasi Beasiswa')"><div class="surat-icon">&#9992;</div><div class="surat-name">Surat Rekomendasi Beasiswa</div><div class="surat-desc">Ditandatangani Dekan</div><div class="surat-dur">5-7 hari kerja</div></div>
+            <div class="surat-card" onclick="pilihSurat(this,'Transkrip Nilai Resmi')"><div class="surat-icon">&#128203;</div><div class="surat-name">Transkrip Nilai Resmi</div><div class="surat-desc">Legalisir + stempel</div><div class="surat-dur">2-3 hari kerja</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Form Pengajuan</div><span class="tag tag-navy" id="jenisSuratLabel">Surat Aktif Kuliah</span></div>
+          <div class="form-row">
+            <div class="form-group"><label>Nama Lengkap</label><input type="text" value="Ahmad Ridwan" readonly style="background:var(--cream)"></div>
+            <div class="form-group"><label>NIM</label><input type="text" value="2021010001" readonly style="background:var(--cream)"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Program Studi</label><input type="text" value="Teknik Informatika" readonly style="background:var(--cream)"></div>
+            <div class="form-group"><label>Semester</label><input type="text" value="8 (Genap 2025/2026)" readonly style="background:var(--cream)"></div>
+          </div>
+          <div class="form-group"><label>Ditujukan Kepada</label><input type="text" id="tujuan" placeholder="Contoh: PT. Teknologi Maju Indonesia"></div>
+          <div class="form-group"><label>Keperluan</label><textarea id="keperluan" placeholder="Jelaskan keperluan pengajuan surat ini..."></textarea></div>
+          <div class="form-row">
+            <div class="form-group"><label>Bahasa Surat</label><select><option>Indonesia</option><option>Inggris</option><option>Indonesia &amp; Inggris</option></select></div>
+            <div class="form-group"><label>Jumlah Salinan</label><select><option>1 lembar</option><option>2 lembar</option><option>3 lembar</option></select></div>
+          </div>
+          <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:.5rem">
+            <button class="btn-outline" onclick="document.getElementById('tujuan').value='';document.getElementById('keperluan').value=''">Reset</button>
+            <button class="btn btn-primary" onclick="ajukanSurat()">Ajukan Surat</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Riwayat Pengajuan</div></div>
+        <div class="riwayat-row"><div><div style="font-size:13px;font-weight:500">Surat Aktif Kuliah</div><div style="font-size:11px;color:var(--text-muted)">PT. Tokopedia &middot; 12 Apr 2026</div></div><div style="text-align:right"><span class="tag tag-green">Selesai</span><br><button class="btn-outline" style="padding:3px 10px;font-size:11px;margin-top:4px" onclick="alert('Mengunduh...')">Unduh</button></div></div>
+        <div class="riwayat-row"><div><div style="font-size:13px;font-weight:500">Surat Keterangan Magang</div><div style="font-size:11px;color:var(--text-muted)">PT. Gojek &middot; 28 Mar 2026</div></div><div style="text-align:right"><span class="tag tag-green">Selesai</span><br><button class="btn-outline" style="padding:3px 10px;font-size:11px;margin-top:4px" onclick="alert('Mengunduh...')">Unduh</button></div></div>
+        <div class="riwayat-row"><div><div style="font-size:13px;font-weight:500">Transkrip Nilai Resmi</div><div style="font-size:11px;color:var(--text-muted)">Beasiswa LPDP &middot; 10 Mar 2026</div></div><div style="text-align:right"><span class="tag tag-green">Selesai</span><br><button class="btn-outline" style="padding:3px 10px;font-size:11px;margin-top:4px" onclick="alert('Mengunduh...')">Unduh</button></div></div>
+        <div class="riwayat-row"><div><div style="font-size:13px;font-weight:500">Surat untuk Bank</div><div style="font-size:11px;color:var(--text-muted)">Bank BCA &middot; 15 Feb 2026</div></div><div style="text-align:right"><span class="tag tag-green">Selesai</span><br><button class="btn-outline" style="padding:3px 10px;font-size:11px;margin-top:4px" onclick="alert('Mengunduh...')">Unduh</button></div></div>
+      </div>
+    </div>
+  </main>
+  <script>
+    function pilihSurat(el, nama) {
+      var cards = document.querySelectorAll('.surat-card');
+      for (var i = 0; i < cards.length; i++) { cards[i].className = 'surat-card'; }
+      el.className = 'surat-card selected';
+      document.getElementById('jenisSuratLabel').textContent = nama;
+    }
+    function ajukanSurat() {
+      var tujuan = document.getElementById('tujuan').value;
+      if (!tujuan) { alert('Harap isi kolom Ditujukan Kepada'); return; }
+      var noSurat = 'SK-2026-' + (Math.floor(Math.random() * 9000) + 1000);
+      alert('Pengajuan berhasil!\nNo: ' + noSurat + '\nEstimasi: 1-2 hari kerja');
+    }
+  </script>
+</body>
+</html>
